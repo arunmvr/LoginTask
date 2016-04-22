@@ -67,8 +67,10 @@ public class MainActivity extends AppCompatActivity implements
                     profileTracker.startTracking();
                 }
                 else {
+                    AccessToken accessToken = loginResult.getAccessToken();
                     Profile profile = Profile.getCurrentProfile();
-                    user_info_f.setText("Welcome "+profile.getName());
+                    displayMessage(profile);
+                    //user_info_f.setText("Welcome "+profile.getName());
                 }
 
             }
@@ -182,6 +184,25 @@ public class MainActivity extends AppCompatActivity implements
             updateUI(false);
 
         }
+    }
+
+    private void displayMessage(Profile profile){
+        if(profile != null){
+            user_info_f.setText("Welcome "+profile.getName());
+        }
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        accessTokenTracker.stopTracking();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        Profile profile = Profile.getCurrentProfile();
+        displayMessage(profile);
     }
 }
 
